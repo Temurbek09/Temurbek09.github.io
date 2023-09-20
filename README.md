@@ -77,7 +77,7 @@ body{
 			<input type="text" id="password" placeholder="Password">
 			<img src="copy.png" onclick="copyPassword()">
 		</div>
-		<button onclick="createPassword()"><img src="generate.png">Generate Password</button>
+		<button onclick="createPassword()">Generate Password</button>
 	</div>
 	<script>
 		
