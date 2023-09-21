@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Random Password Generator</title>
+	<link rel="shortcut icon" type="image/png" href="img/favicon.png">
 	<style>
 		*{
 	padding: 0;
@@ -77,7 +79,7 @@ body{
 			<input type="text" id="password" placeholder="Password">
 			<img src="copy.png" onclick="copyPassword()">
 		</div>
-		<button onclick="createPassword()">Generate Password</button>
+		<button onclick="createPassword()"><img src="generate.png">Generate Password</button>
 	</div>
 	<script>
 		
