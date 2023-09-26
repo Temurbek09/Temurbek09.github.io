@@ -2,30 +2,35 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2048 Game</title>
+    <title>Age Calculator</title>
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <!-- Stylesheet-->
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container hide">
-      <div class="heading">
-        <h1>2048</h1>
-        <div class="score-container">
-          Score:
-          <span id="score">0</span>
+    <div class="container">
+      <div class="input-wrapper">
+        <input type="date" id="date-input" />
+        <button id="calc-age-btn">Calculate</button>
+      </div>
+      <div class="output-wrapper">
+        <div>
+          <span id="years">-</span>
+          <p>Years</p>
+        </div>
+        <div>
+          <span id="months">-</span>
+          <p>Months</p>
+        </div>
+        <div>
+          <span id="days">-</span>
+          <p>Days</p>
         </div>
       </div>
-      <div class="grid"></div>
-    </div>
-    <div class="cover-screen">
-      <h2 id="over-text" class="hide">Game Over</h2>
-      <p id="result"></p>
-      <button id="start-button">Start Game</button>
     </div>
     <!-- Script -->
     <script src="script.js"></script>
