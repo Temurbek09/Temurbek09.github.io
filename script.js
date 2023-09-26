@@ -1,88 +1,70 @@
-const ageCalculate = () => {
-  const today = new Date();
-  const inputDate = new Date(document.getElementById("date-input").value);
+const fromText = document.querySelector(".from-text"),
+toText = document.querySelector(".to-text"),
+exchageIcon = document.querySelector(".exchange"),
+selectTag = document.querySelectorAll("select"),
+icons = document.querySelectorAll(".row i");
+translateBtn = document.querySelector("button"),
 
-  const birthDetails = {
-    date: inputDate.getDate(),
-    month: inputDate.getMonth() + 1,
-    year: inputDate.getFullYear(),
-  };
+selectTag.forEach((tag, id) => {
+    for (let country_code in countries) {
+        let selected = id == 0 ? country_code == "en-GB" ? "selected" : "" : country_code == "hi-IN" ? "selected" : "";
+        let option = `<option ${selected} value="${country_code}">${countries[country_code]}</option>`;
+        tag.insertAdjacentHTML("beforeend", option);
+    }
+});
 
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
-  const currentDate = today.getDate();
+exchageIcon.addEventListener("click", () => {
+    let tempText = fromText.value,
+    tempLang = selectTag[0].value;
+    fromText.value = toText.value;
+    toText.value = tempText;
+    selectTag[0].value = selectTag[1].value;
+    selectTag[1].value = tempLang;
+});
 
-  if (isFutureDate(birthDetails, currentYear, currentMonth, currentDate)) {
-    alert("Not Born Yet");
-    displayResult("-", "-", "-");
-    return;
-  }
+fromText.addEventListener("keyup", () => {
+    if(!fromText.value) {
+        toText.value = "";
+    }
+});
 
-  const { years, months, days } = calculateAge(
-    birthDetails,
-    currentYear,
-    currentMonth,
-    currentDate
-  );
+translateBtn.addEventListener("click", () => {
+    let text = fromText.value.trim(),
+    translateFrom = selectTag[0].value,
+    translateTo = selectTag[1].value;
+    if(!text) return;
+    toText.setAttribute("placeholder", "Translating...");
+    let apiUrl = `https://api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
+    fetch(apiUrl).then(res => res.json()).then(data => {
+        toText.value = data.responseData.translatedText;
+        data.matches.forEach(data => {
+            if(data.id === 0) {
+                toText.value = data.translation;
+            }
+        });
+        toText.setAttribute("placeholder", "Translation");
+    });
+});
 
-  displayResult(days, months, years);
-};
-
-const isFutureDate = (birthDetails, currentYear, currentMonth, currentDate) => {
-  return (
-    birthDetails.year > currentYear ||
-    (birthDetails.year === currentYear &&
-      (birthDetails.month > currentMonth ||
-        (birthDetails.month === currentMonth &&
-          birthDetails.date > currentDate)))
-  );
-};
-
-const calculateAge = (birthDetails, currentYear, currentMonth, currentDate) => {
-  let years = currentYear - birthDetails.year;
-  let months, days;
-
-  if (currentMonth < birthDetails.month) {
-    years--;
-    months = 12 - (birthDetails.month - currentMonth);
-  } else {
-    months = currentMonth - birthDetails.month;
-  }
-
-  if (currentDate < birthDetails.date) {
-    months--;
-    const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-    const daysInLastMonth = getDaysInMonth(lastMonth, currentYear);
-    days = daysInLastMonth - (birthDetails.date - currentDate);
-  } else {
-    days = currentDate - birthDetails.date;
-  }
-  return { years, months, days };
-};
-
-const getDaysInMonth = (month, year) => {
-  const isLeapYear = year % 4 === 0 && (year % 100 != 0 || year % 400 === 0);
-  const getDaysInMonth = [
-    31,
-    isLeapYear ? 29 : 28,
-    31,
-    30,
-    31,
-    30,
-    31,
-    31,
-    30,
-    31,
-    30,
-    31,
-  ];
-  return getDaysInMonth[month - 1];
-};
-
-const displayResult = (bdate, bMonth, bYear) => {
-  document.getElementById("years").textContent = bYear;
-  document.getElementById("months").textContent = bMonth;
-  document.getElementById("days").textContent = bdate;
-};
-
-document.getElementById("calc-age-btn").addEventListener("click", ageCalculate);
+icons.forEach(icon => {
+    icon.addEventListener("click", ({target}) => {
+        if(!fromText.value || !toText.value) return;
+        if(target.classList.contains("fa-copy")) {
+            if(target.id == "from") {
+                navigator.clipboard.writeText(fromText.value);
+            } else {
+                navigator.clipboard.writeText(toText.value);
+            }
+        } else {
+            let utterance;
+            if(target.id == "from") {
+                utterance = new SpeechSynthesisUtterance(fromText.value);
+                utterance.lang = selectTag[0].value;
+            } else {
+                utterance = new SpeechSynthesisUtterance(toText.value);
+                utterance.lang = selectTag[1].value;
+            }
+            speechSynthesis.speak(utterance);
+        }
+    });
+});
