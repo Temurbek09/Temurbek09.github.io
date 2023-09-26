@@ -1,37 +1,43 @@
-<html lang="en">
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Age Calculator</title>
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8">  
+    <title>Language Translator | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome CDN Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   </head>
   <body>
     <div class="container">
-      <div class="input-wrapper">
-        <input type="date" id="date-input" />
-        <button id="calc-age-btn">Calculate</button>
+      <div class="wrapper">
+        <div class="text-input">
+          <textarea spellcheck="false" class="from-text" placeholder="Enter text"></textarea>
+          <textarea spellcheck="false" readonly disabled class="to-text" placeholder="Translation"></textarea>
+        </div>
+        <ul class="controls">
+          <li class="row from">
+            <div class="icons">
+              <i id="from" class="fas fa-volume-up"></i>
+              <i id="from" class="fas fa-copy"></i>
+            </div>
+            <select></select>
+          </li>
+          <li class="exchange"><i class="fas fa-exchange-alt"></i></li>
+          <li class="row to">
+            <select></select>
+            <div class="icons">
+              <i id="to" class="fas fa-volume-up"></i>
+              <i id="to" class="fas fa-copy"></i>
+            </div>
+          </li>
+        </ul>
       </div>
-      <div class="output-wrapper">
-        <div>
-          <span id="years">-</span>
-          <p>Years</p>
-        </div>
-        <div>
-          <span id="months">-</span>
-          <p>Months</p>
-        </div>
-        <div>
-          <span id="days">-</span>
-          <p>Days</p>
-        </div>
-      </div>
+      <button>Translate Text</button>
     </div>
-    <!-- Script -->
+
+    <script src="countries.js"></script>
     <script src="script.js"></script>
+
   </body>
 </html>
